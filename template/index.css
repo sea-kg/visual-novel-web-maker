@@ -9,6 +9,7 @@ body {
     height: 100%;
     position: absolute;
     background: #15191a;
+    z-index: 10;
 }
 
 .screen-loading-content {
@@ -37,18 +38,63 @@ body {
 
 .main-loader-progress-bar {
     display: inline-block;
-    width: 50%;
+    width: 0%;
     height: 12px;
     background: #264046;
     border-radius: 20px;
     margin-top: 3px;
     margin-left: 3px;
+    transition: all .2s ease-in-out;
 }
 
-.main-play-btn {
+.main-play-btn-outside-block {
     display: inline-block;
     width: 150px;
-    height: 150px;
+    height: 148px;
     border-radius: 100px;
-    box-shadow: 0px 0px 1em #000;
+    background: #264046;
+    padding-top: 2px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.main-play-btn-outside-block:hover {
+    transform: scale(1.1);
+}
+
+.main-play-btn-inside-block {
+    display: inline-block;
+    width: 146px;
+    height: 146px;
+    border-radius: 100px;
+    background: #18292d;
+}
+
+.main-play-btn-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 55px solid transparent;
+    border-bottom: 55px solid transparent;
+    border-left: 75px solid #264046;
+    margin-top: 20px;
+    margin-left: 25px;
+}
+
+.game-content {
+    display: table;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #15191a;
+    z-index: 10;
+}
+
+.game- {
+    display: table;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #15191a;
+    z-index: 10;
 }

@@ -1,0 +1,37 @@
+{
+    "start": {
+        "background": "./images/background_001.jpeg",
+        "text": "Welcome to Siberia!",
+        "next": [{
+            "title": "",
+            "id": "start_1"
+        }]
+    },
+    "start_1": {
+        "background": "./images/background_001.jpeg",
+        "text": "We have very cold winters here at times.",
+        "next": [{
+            "text": "Show me what steam looks like",
+            "id": "steam_0"
+        }, {
+            "text": "Tell me something else",
+            "id": "show_0"
+        }]
+    },
+    "steam_0": {
+        "background": "./images/background_002.jpeg",
+        "text": "When there is a problem with the sewer, the steam looks like this",
+        "next": [{
+            "text": "",
+            "id": "start_1"
+        }]
+    },
+    "show_0": {
+        "background": "./images/background_003.jpeg",
+        "text": "Sometimes there is a lot of snow in Siberia and sometimes not much like in the photo",
+        "next": [{
+            "text": "",
+            "id": "start_1"
+        }]
+    }
+}
