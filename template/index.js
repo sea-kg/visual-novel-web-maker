@@ -1,3 +1,4 @@
+window.gameJson = {};
 
 function getJSON(url, callback) {
     var xhr = new XMLHttpRequest();
@@ -6,9 +7,10 @@ function getJSON(url, callback) {
     xhr.onload = function() {
       var status = xhr.status;
       if (status === 200) {
-        callback(null, xhr.response);
+        window.gameJson = xhr.response;
+        callback(null);
       } else {
-        callback(status, xhr.response);
+        callback(status);
       }
     };
     xhr.send();
@@ -38,6 +40,8 @@ function hide_screen_loading() {
     document.getElementById("screen_loading").style.display = "none";
 }
 
+
+
 function loading_resources() {
     console.warn("Simulation loading resources... TODO");
     getJSON("./game.json", function(st, result) {
@@ -46,11 +50,13 @@ function loading_resources() {
             return;
         } else {
             console.log(result)
-            const gameJson = JSON.parse(result);
+            const gameJson = result;
+            // const gameJson = JSON.parse(result);
             for (var i in gameJson) {
-                print(i);
+                gameJson
+                console.log(i);
             }
-            // TODO parse and 
+            // TODO parse and
             var progress0 = 0;
             var interval0 = setInterval(function() {
                 set_main_progress(progress0);
