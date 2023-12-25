@@ -42,30 +42,28 @@ function hide_screen_loading() {
 
 function loading_resources() {
     console.warn("Simulation loading resources... TODO");
-    getJSON("./game.json", function(st, result) {
+    getJSON("./game.json", function(st) {
         if (st !== null) {
             console.error("Could not download ./game.json");
             return;
-        } else {
-            console.log(result)
-            const gameJson = result;
-            // const gameJson = JSON.parse(result);
-            for (var i in gameJson) {
-                gameJson
-                console.log(i);
-            }
-            // TODO parse and
-            var progress0 = 0;
-            var interval0 = setInterval(function() {
-                set_main_progress(progress0);
-                progress0 += 10;
-                if (progress0 > 100) {
-                    clearInterval(interval0);
-                    hide_main_progress();
-                    show_main_play_btn();
-                }
-            }, 100);
         }
+        console.log("window.gameJson: ", window.gameJson)
+        const gameJson = result;
+        // const gameJson = JSON.parse(result);
+        for (var i in gameJson) {
+            console.log(i);
+        }
+        // TODO parse and
+        var progress0 = 0;
+        var interval0 = setInterval(function() {
+            set_main_progress(progress0);
+            progress0 += 10;
+            if (progress0 > 100) {
+                clearInterval(interval0);
+                hide_main_progress();
+                show_main_play_btn();
+            }
+        }, 100);
     })
 }
 
@@ -120,16 +118,6 @@ function next_scene(sceneid) {
                 + " next_scene_id='" + btn_id + "' "
                 + " onclick='onclick_next_scene_btn(this);'>"
                 + escapeHtml(btn_text) + "</div>";
-
-            /*
-            "next": [{
-                "text": "Show me what steam looks like",
-                "id": "steam_0"
-            }, {
-                "text": "Tell me something else",
-                "id": "show_0"
-            }]
-            */
         }
         // variants
     }
