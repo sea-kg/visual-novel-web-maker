@@ -1,0 +1,199 @@
+body {
+    background: #efefef;
+    max-height: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.pipeline-editor-container {
+    padding: 10px;
+    border-top: 1px solid #d2d3d2;
+    height: calc(100% - 60px);
+    background: #efefef;
+    z-index: 100;
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    width: calc(100% - 20px);
+}
+
+.pipeline-editor-panel-buttons {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.pipeline-editor-canvas-container {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    overflow: scroll;
+}
+
+.pipeline-editor-btn {
+    display: inline-block;
+    background: #aa66aa;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(159,240,5,0.5);
+    color: yellow;
+    cursor: pointer;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.pipeline-editor-btn:hover {
+    background: #6666aa;
+}
+
+
+.pipeline-editor-table {
+    display: table;
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+}
+
+.pipeline-editor-table-row {
+    display: table-row;
+}
+
+.pipeline-editor-table-cell {
+    display: table-cell;
+    vertical-align: top;
+
+}
+
+.pipeline-editor-table-cell.functions {
+    width: 65px;
+    max-width: 65px;
+    height: auto;
+}
+
+.pipeline-editor-table-cell.editor {
+    width: 100%;
+    max-width: 100px;
+    height: 100px;
+    max-height: 100px;
+}
+
+.pipeline-editor-table-cell.properties {
+    width: 180px;
+    max-width: 180px;
+}
+
+.pipeline-editor-table-cell.properties input {
+    width: 150px;
+    max-width: 150px;
+}
+
+.pipeline-editor-table-cell.properties input:read-only {
+    background-color: #AAA;
+}
+
+.pipeline-editor-functions-btn {
+    display: block;
+    background-position: 0px 0px;
+    background-image: url("./images/menu-states.svg?v=1");
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.pipeline-editor-functions-btn.pressed {
+    background-position-x: 50px;
+}
+
+.pipeline-editor-functions-btn:active:hover {
+    background-position-x: 50px;
+}
+
+.pipeline-editor-functions-btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(159,240,5,0.5);
+}
+
+.pipeline-editor-functions-btn.moving-block {
+    background-position-y: 50px;
+}
+
+.pipeline-editor-functions-btn.add-block {
+    background-position-y: 250px;
+}
+
+.pipeline-editor-functions-btn.scale-minus {
+    background-image: url("./images/scale-minus.svg");
+}
+
+.pipeline-editor-functions-btn.scale-reset {
+    background-image: url("./images/scale-reset.svg");
+}
+
+.pipeline-editor-functions-btn.scale-plus {
+    background-image: url("./images/scale-plus.svg");
+}
+
+.pipeline-editor-functions-btn.connect-blocks {
+    background-position-y: 300px;
+}
+
+.pipeline-editor-functions-btn.disconnect-blocks {
+    background-position-y: 550px;
+}
+
+.pipeline-editor-functions-btn.grid {
+    background-position-y: 100px;
+}
+
+.pipeline-editor-functions-btn.storage-save-to {
+    background-position-y: 350px;
+}
+
+.pipeline-editor-functions-btn.storage-clear {
+    background-position-y: 400px;
+}
+
+.pipeline-editor-functions-btn.storage-sample {
+    background-position-y: 450px;
+}
+
+.pipeline-editor-functions-btn.remove-block {
+    background-position-y: 200px;
+}
+
+.pipeline-editor-functions-btn.share {
+    background-position-y: 150px;
+}
+
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 2001;
+    left: 50px;
+    top: 10px
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

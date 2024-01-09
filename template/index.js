@@ -48,10 +48,9 @@ function loading_resources() {
             return;
         }
         console.log("window.gameJson: ", window.gameJson)
-        const gameJson = result;
-        // const gameJson = JSON.parse(result);
-        for (var i in gameJson) {
-            console.log(i);
+        for (var sceneid in window.gameJson["scenes"]) {
+            var url_background = window.gameJson["scenes"][sceneid]["background"];
+            console.log("url_background", url_background)
         }
         // TODO parse and
         var progress0 = 0;
