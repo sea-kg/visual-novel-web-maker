@@ -24,5 +24,3 @@ check_ret $? "configure"
 
 cmake --build ./tmp/release --config Release
 check_ret $? "build"
-
-cd ./tmp/release && ctest --output-on-failure

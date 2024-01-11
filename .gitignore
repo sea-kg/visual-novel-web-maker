@@ -32,3 +32,9 @@
 *.app
 
 references
+/tmp
+/visual-novel-web-maker
+/.wsjcpp
+/hv_logs
+/game
+/logs

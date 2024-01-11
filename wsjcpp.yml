@@ -1,0 +1,22 @@
+name: "visual-novel-web-maker.git"
+version: "v0.0.1"
+cmake_minimum_required: "3.0"
+cmake_cxx_standard: "11"
+description: "Visaul Novel Web Maker"
+authors:
+  - name: "Evgenii Sopov"
+    email: "mrseakg@gmail.com"
+origins:
+  - address: "https://sea-kg.com/wsjcpp-package-registry/"
+    type: "package-registry"
+keywords:
+  - "c++"
+
+dependencies:
+  - name: "wsjcpp-core"
+    version: "v0.2.3"
+    url: "https://github.com/wsjcpp/wsjcpp-core:master"
+    origin: "https://github.com/"
+    installation-dir: "./src.wsjcpp/wsjcpp_core"
+    installation-datetime: "Thu, 11 Jan 2024 17:19:40 GMT"
+
