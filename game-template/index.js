@@ -7,9 +7,11 @@ function getJSON(url, callback) {
     xhr.onload = function() {
       var status = xhr.status;
       if (status === 200) {
-        window.gameJson = xhr.response;
+        var scene = xhr.response;
+        window.gameJson[scene.id] = scene;
         callback(null);
       } else {
+        console.error("Could not download " + url);
         callback(status);
       }
     };
@@ -40,30 +42,87 @@ function hide_screen_loading() {
     document.getElementById("screen_loading").style.display = "none";
 }
 
-function loading_resources() {
-    console.warn("Simulation loading resources... TODO");
-    getJSON("./game.json", function(st) {
+function load_scene(sceneid) {
+    // console.log("Loading " + sceneid);
+    getJSON("./scenes/" + sceneid + ".json", function(st) {
         if (st !== null) {
             console.error("Could not download ./game.json");
             return;
         }
-        console.log("window.gameJson: ", window.gameJson)
-        for (var sceneid in window.gameJson["scenes"]) {
-            var url_background = window.gameJson["scenes"][sceneid]["background"];
-            console.log("url_background", url_background)
-        }
-        // TODO parse and
-        var progress0 = 0;
-        var interval0 = setInterval(function() {
-            set_main_progress(progress0);
-            progress0 += 10;
-            if (progress0 > 100) {
-                clearInterval(interval0);
-                hide_main_progress();
-                show_main_play_btn();
+        for (var sceneid in window.gameJson) {
+            // console.log("sceneid: ", sceneid)
+            for (var nextid in window.gameJson[sceneid]["next"]) {
+                var nextsceneid = window.gameJson[sceneid]["next"][nextid]["id"];
+                // console.log("nextsceneid: ", nextsceneid)
+                // console.log("window.gameJson[nextsceneid]: ", window.gameJson[nextsceneid])
+                if (window.gameJson[nextsceneid] === undefined) {
+                    window.gameJson[nextsceneid] = "loading...";
+                    load_scene(nextsceneid);
+                }
             }
-        }, 100);
+        }
+        for (var sceneid in window.gameJson) {
+            if (window.gameJson[sceneid] != "loading...") {
+                console.log("All data scenes loaded");
+            }
+        }
+
+        // console.log("window.gameJson: ", window.gameJson)
+        // for (var sceneid in window.gameJson["scenes"]) {
+        //     var url_background = window.gameJson["scenes"][sceneid]["background"];
+        //     console.log("url_background", url_background)
+        // }
+        // // TODO parse and
+        // var progress0 = 0;
+        // var interval0 = setInterval(function() {
+        //     set_main_progress(progress0);
+        //     progress0 += 10;
+        //     if (progress0 > 100) {
+        //         clearInterval(interval0);
+        //         hide_main_progress();
+        //         show_main_play_btn();
+        //     }
+        // }, 100);
     })
+}
+
+function loading_resources() {
+    console.warn("Simulation loading resources... TODO");
+    load_scene("_start");
+
+    // getJSON("./scenes/_start.json", function(st) {
+    //     if (st !== null) {
+    //         console.error("Could not download ./game.json");
+    //         return;
+    //     }
+    //     for (var sceneid in window.gameJson) {
+    //         console.log("sceneid: ", sceneid)
+    //         for (var nextid in window.gameJson[sceneid]["next"]) {
+    //             var nextsceneid = window.gameJson[sceneid]["next"][nextid]["id"];
+    //             if (window.gameJson[nextsceneid] !== undefined) {
+    //                 getJSON()
+    //             }
+    //             console.log("nextid: ", nextid)
+    //         }
+    //     }
+
+    //     // console.log("window.gameJson: ", window.gameJson)
+    //     // for (var sceneid in window.gameJson["scenes"]) {
+    //     //     var url_background = window.gameJson["scenes"][sceneid]["background"];
+    //     //     console.log("url_background", url_background)
+    //     // }
+    //     // // TODO parse and
+    //     // var progress0 = 0;
+    //     // var interval0 = setInterval(function() {
+    //     //     set_main_progress(progress0);
+    //     //     progress0 += 10;
+    //     //     if (progress0 > 100) {
+    //     //         clearInterval(interval0);
+    //     //         hide_main_progress();
+    //     //         show_main_play_btn();
+    //     //     }
+    //     // }, 100);
+    // })
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {

@@ -16,8 +16,7 @@ class VisualNovelWebMakerHttpServer {
 
     private:
         std::string TAG;
-        std::string m_sApiPathPrefix;
-        std::string m_sTeamLogoPrefix;
+        std::string m_sGamePathPrefix;
         int m_nTeamLogoPrefixLength;
         hv::HttpService *m_pHttpService;
 

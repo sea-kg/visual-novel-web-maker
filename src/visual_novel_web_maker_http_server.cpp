@@ -25,6 +25,8 @@ VisualNovelWebMakerHttpServer::VisualNovelWebMakerHttpServer() {
         logger_set_file(pLogger, sLogFilePath.c_str());
     }
 
+    m_sGamePathPrefix = "/game/";
+
     // m_sApiPathPrefix = "/api/v1/";
     // m_sTeamLogoPrefix = "/team-logo/";
     // m_nTeamLogoPrefixLength = m_sTeamLogoPrefix.size();
@@ -99,6 +101,7 @@ int VisualNovelWebMakerHttpServer::httpAdmin(HttpRequest* req, HttpResponse* res
 
 int VisualNovelWebMakerHttpServer::httpWebFolder(HttpRequest* req, HttpResponse* resp) {
     std::string sOriginalRequestPath = req->path;
+    WsjcppLog::info(TAG, "sOriginalRequestPath = " + sOriginalRequestPath);
     std::string sRequestPath;
 
     // remove get params from path
@@ -108,6 +111,7 @@ int VisualNovelWebMakerHttpServer::httpWebFolder(HttpRequest* req, HttpResponse*
     } else {
         sRequestPath = sOriginalRequestPath;
     }
+
     sRequestPath = WsjcppCore::doNormalizePath(sRequestPath);
 
     // // WsjcppLog::info(TAG, "sRequestPath = " + sRequestPath);
@@ -154,13 +158,33 @@ int VisualNovelWebMakerHttpServer::httpWebFolder(HttpRequest* req, HttpResponse*
     //     return this->httpApiV1GetPaths(req, resp);
     // }
 
+    if (sRequestPath == "/game") {
+        // TODO redirect to /game/
+        sRequestPath = "/game/index.html";
+    }
+    if (sRequestPath == "/game/") {
+        sRequestPath = "/game/index.html";
+    }
+
+    if (sRequestPath.rfind(m_sGamePathPrefix, 0) == 0) {
+        WsjcppLog::info(TAG, "Request path: " + sRequestPath);
+        sRequestPath.erase(0, m_sGamePathPrefix.size());
+        WsjcppLog::info(TAG, "Request path2: " + sRequestPath);
+        std::string sFilePath = WsjcppCore::doNormalizePath("./game-template/" + sRequestPath);
+        WsjcppLog::info(TAG, "sFilePath: " + sFilePath);
+        if (WsjcppCore::fileExists(sFilePath)) { // TODO check the file exists not dir
+            return resp->File(sFilePath.c_str());
+        }
+        return 403;
+    }
+
     if (sRequestPath == "/") {
         sRequestPath = "/index.html";
     }
 
     // TODO
     WsjcppLog::info(TAG, "Request path: " + sRequestPath);
-    std::string sFilePath = sRequestPath = WsjcppCore::doNormalizePath("./html/" + sRequestPath);
+    std::string sFilePath = WsjcppCore::doNormalizePath("./html/" + sRequestPath);
     if (WsjcppCore::fileExists(sFilePath)) { // TODO check the file exists not dir
         return resp->File(sFilePath.c_str());
     }

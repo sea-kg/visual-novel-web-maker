@@ -1,0 +1,9 @@
+{
+    "id": "show_0",
+    "background": "./images/background_003.jpeg",
+    "text": "Sometimes there is a lot of snow in Siberia and sometimes not much like in the photo",
+    "next": [{
+        "text": "",
+        "id": "start_1"
+    }]
+}

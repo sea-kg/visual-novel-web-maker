@@ -1,0 +1,9 @@
+{
+    "id": "steam_0",
+    "background": "./images/background_002.jpeg",
+    "text": "When there is a problem with the sewer, the steam looks like this",
+    "next": [{
+        "text": "",
+        "id": "start_1"
+    }]
+}

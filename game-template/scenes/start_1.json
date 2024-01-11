@@ -1,0 +1,13 @@
+{
+    "id": "start_1",
+    "revision": 0,
+    "background": "./images/background_001.jpeg",
+    "text": "We have very cold winters here at times.",
+    "next": [{
+        "text": "Show me what steam looks like",
+        "id": "steam_0"
+    }, {
+        "text": "Tell me something else",
+        "id": "show_0"
+    }]
+}
