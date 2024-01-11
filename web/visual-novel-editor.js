@@ -202,7 +202,7 @@ class RenderPipelineConnection {
                 this._conf.get_radius_for_angels(),
                 PIPELINE_EDITOR_S5_LINE_ANGEL_END_LEFT
             );
-            
+
             this.line2.draw_arc(
                 _ctx,
                 this._conf.get_radius_for_angels(),
@@ -224,7 +224,7 @@ class RenderPipelineConnection {
                 PIPELINE_EDITOR_S5_LINE_ANGEL_RIGHT_DOWN
             );
         }
-        
+
         // vertical
         _ctx.beginPath();
         _ctx.moveTo(_x0, this.line2.y0);
@@ -1157,7 +1157,7 @@ class RenderPipelineEditor {
     calcX_in_px(cell_x) {
         return this._conf.get_diagram_padding_left() + cell_x * this._conf.get_cell_width();
     }
-    
+
     calcY_in_px(cell_y) {
         return this._conf.get_diagram_padding_top() + cell_y * this._conf.get_cell_height();
     }
