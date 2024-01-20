@@ -2,6 +2,7 @@
     "id": "_start",
     "revision": 0,
     "background": "./images/background_001.jpeg",
+    "person": "",
     "text": "Welcome to Siberia!",
     "next": [{
         "id": "start_1",

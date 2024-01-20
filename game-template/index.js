@@ -1,23 +1,5 @@
 window.gameJson = {};
 
-function getJSON(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-      var status = xhr.status;
-      if (status === 200) {
-        var scene = xhr.response;
-        window.gameJson[scene.id] = scene;
-        callback(null);
-      } else {
-        console.error("Could not download " + url);
-        callback(status);
-      }
-    };
-    xhr.send();
-};
-
 function show_main_progress() {
     document.getElementById("main_loader").style.display = "";
 }
@@ -42,87 +24,69 @@ function hide_screen_loading() {
     document.getElementById("screen_loading").style.display = "none";
 }
 
+function getJSON(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        var scene = xhr.response;
+        window.gameJson[scene.id] = scene;
+        callback(null, scene.id);
+      } else {
+        console.error("Could not download " + url);
+        callback(status, null);
+      }
+    };
+    xhr.send();
+};
+
+var progress0 = 0;
+var loading_scenes = []
+var loaded_scenes = []
 function load_scene(sceneid) {
+    loading_scenes.push(sceneid)
+    console.log("loading_scenes: ", loading_scenes)
     // console.log("Loading " + sceneid);
-    getJSON("./scenes/" + sceneid + ".json", function(st) {
+    getJSON("./scenes/" + sceneid + ".json", function(st, sceneid) {
         if (st !== null) {
             console.error("Could not download ./game.json");
             return;
         }
+        progress0 += 1;
+        set_main_progress(progress0);
+        loaded_scenes.push(sceneid);
+        console.log("loaded_scenes: ", loaded_scenes);
+        var do_loading_next_scenes = 0;
         for (var sceneid in window.gameJson) {
             // console.log("sceneid: ", sceneid)
             for (var nextid in window.gameJson[sceneid]["next"]) {
                 var nextsceneid = window.gameJson[sceneid]["next"][nextid]["id"];
                 // console.log("nextsceneid: ", nextsceneid)
                 // console.log("window.gameJson[nextsceneid]: ", window.gameJson[nextsceneid])
-                if (window.gameJson[nextsceneid] === undefined) {
-                    window.gameJson[nextsceneid] = "loading...";
+                if (loading_scenes.indexOf(nextsceneid) === -1) {
+                    do_loading_next_scenes ++;
                     load_scene(nextsceneid);
                 }
             }
         }
-        for (var sceneid in window.gameJson) {
-            if (window.gameJson[sceneid] != "loading...") {
-                console.log("All data scenes loaded");
-            }
+        console.log("do_loading_next_scenes", do_loading_next_scenes)
+        if (do_loading_next_scenes == 0 && loaded_scenes.length == loading_scenes.length) {
+            console.log("All data scenes loaded");
+            // TODO loading images (maybe first 10 and then loading in background)
+            progress0 = 100;
+            set_main_progress(progress0);
+            hide_main_progress();
+            show_main_play_btn();
         }
-
-        // console.log("window.gameJson: ", window.gameJson)
-        // for (var sceneid in window.gameJson["scenes"]) {
-        //     var url_background = window.gameJson["scenes"][sceneid]["background"];
-        //     console.log("url_background", url_background)
-        // }
-        // // TODO parse and
-        // var progress0 = 0;
-        // var interval0 = setInterval(function() {
-        //     set_main_progress(progress0);
-        //     progress0 += 10;
-        //     if (progress0 > 100) {
-        //         clearInterval(interval0);
-        //         hide_main_progress();
-        //         show_main_play_btn();
-        //     }
-        // }, 100);
     })
 }
 
 function loading_resources() {
-    console.warn("Simulation loading resources... TODO");
+    progress0 = 0;
+    console.warn("Loading resources...");
     load_scene("_start");
-
-    // getJSON("./scenes/_start.json", function(st) {
-    //     if (st !== null) {
-    //         console.error("Could not download ./game.json");
-    //         return;
-    //     }
-    //     for (var sceneid in window.gameJson) {
-    //         console.log("sceneid: ", sceneid)
-    //         for (var nextid in window.gameJson[sceneid]["next"]) {
-    //             var nextsceneid = window.gameJson[sceneid]["next"][nextid]["id"];
-    //             if (window.gameJson[nextsceneid] !== undefined) {
-    //                 getJSON()
-    //             }
-    //             console.log("nextid: ", nextid)
-    //         }
-    //     }
-
-    //     // console.log("window.gameJson: ", window.gameJson)
-    //     // for (var sceneid in window.gameJson["scenes"]) {
-    //     //     var url_background = window.gameJson["scenes"][sceneid]["background"];
-    //     //     console.log("url_background", url_background)
-    //     // }
-    //     // // TODO parse and
-    //     // var progress0 = 0;
-    //     // var interval0 = setInterval(function() {
-    //     //     set_main_progress(progress0);
-    //     //     progress0 += 10;
-    //     //     if (progress0 > 100) {
-    //     //         clearInterval(interval0);
-    //     //         hide_main_progress();
-    //     //         show_main_play_btn();
-    //     //     }
-    //     // }, 100);
-    // })
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -148,7 +112,7 @@ function escapeHtml(html){
 
 function next_scene(sceneid) {
     console.log("next_scene ", sceneid)
-    var scene = window.gameJson["scenes"][sceneid];
+    var scene = window.gameJson[sceneid];
     document.getElementById("scene_background_back").style["background-image"] = "url(\"" + scene["background"] + "\")";
     document.getElementById("scene_background_front").style["background-image"] = "url(\"" + scene["background"] + "\")";
     document.getElementById("scene_text").innerHTML = scene["text"];
@@ -182,7 +146,7 @@ function next_scene(sceneid) {
 }
 
 function run_game() {
-    var startid = window.gameJson["options"]["start-scene"];
+    var startid = '_start';
     next_scene(startid);
     hide_screen_loading();
 }
